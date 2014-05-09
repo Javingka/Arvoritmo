@@ -155,7 +155,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 	@Override
 	public void screenTouched(int id, float x, float y) {
 		// TODO Auto-generated method stub
-		Log.i(TAG, "mutiTouch, toque em x:" + x + " y: " + y + " e id: " + id );
+//		Log.i(TAG, "mutiTouch, toque em x:" + x + " y: " + y + " e id: " + id );
 	}
 	@Override
 	public void screenTouchedReleased(int id) {
@@ -166,7 +166,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 	@Override
 	public void screenTouchedDragged(int id, float x, float y, float dist, float ang) {
 		// TODO Auto-generated method stub
-		
+		Log.i(TAG, "Touch dragged, toque em x:" + x + " y: " + y + " e id: " + id + " dist: "+dist+" angulo: "+ang);
 	}
 
 	public boolean surfaceTouchEvent(MotionEvent me) {

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import android.util.Log;
 import android.view.MotionEvent;
 
 import processing.core.PApplet;
@@ -18,6 +19,7 @@ import processing.core.PVector;
  * informaçāo da distança e o angulo ao arrastrar os toques na tela
  */
 public class MultiTouchP {
+	private static final String TAG = "MultiTouchP";
 	//variavel para colocar como ID invalido 
 	final int INVALID_POINTER_ID = -1;
 	
@@ -160,12 +162,18 @@ public class MultiTouchP {
 	 */
 	synchronized void update(int id, float x, float y) {
 		Point p1 = hashList.get(id); // pega o valor do ponto antes de atualizar
+		PVector Pv1 = p1.getPVectorPos();
 		hashList.get(id).update(x, y); //atualizaçāo da nova posiçāo do ponto 
 		Point p2 = hashList.get(id); // pega o valor do ponto depois da atualizaçāo
-		float dist = PVector.dist(p1.getPVectorPos(), p2.getPVectorPos()); //pegamos distancia
-		float ang = PVector.angleBetween(p1.getPVectorPos(), p2.getPVectorPos()); //pegamos angulo
-		if (p2.posY < p1.posY) //adaptamos o angulo para cubrir os 360°
-			ang = 2*p5.PI-ang;
+		PVector Pv2 = p2.getPVectorPos();
+		
+		PVector Pv3 = PVector.sub( Pv2, Pv1);
+		float dist = Pv3.mag(); //pegamos distancia
+		float ang = PVector.angleBetween(new PVector (1,0), Pv3);
+		
+		if (Pv2.y < Pv1.y) //adaptamos o angulo para cubrir os 360°
+			ang = ( 2 * p5.PI ) - ang;
+		
 		
 		mtCallBack.sendToCallBackMethod(id, x, y, dist, ang); //chamamos a funçāo que f	
 		
