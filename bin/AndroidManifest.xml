@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.template"
+    package="cl.javiercruz.arvore"
     android:versionCode="1"
     android:versionName="1.0" >
-
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
     <application
@@ -13,9 +16,20 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <activity 
+            android:name="SplashScreen"
+            android:theme="@style/Theme.Transparent"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
-            android:name="com.example.template.MainActivity"
-            android:label="@string/app_name" >
+            android:name="cl.javiercruz.arvore.MainActivity"
+            android:label="@string/app_name" 
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"	>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,13 +39,59 @@
         
 <!-- Todo sketch de Processing que seja criado com um 'intent' tem que ser declarado aqui no manifest -->
 <!-- com android:screenOrientation fixamos a orientaçāo da tela -->
-        <activity android:name="com.example.template.processing.PAppletInicial"
-		android:screenOrientation="landscape"> 
+        <activity android:name="cl.javiercruz.arvore.processing.PAppletInicial"		android:screenOrientation="landscape"> 
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 			</intent-filter>
 		</activity>
 		
-    </application>
-
+ <!-- activities para pegar arquivos de audio. desde o app ou a raiz do dispositivo -->
+    	<activity
+            android:name="cl.javiercruz.arvore.androidActivities.FileChooser"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="Escolher Arquivo Em Disco">
+            <intent-filter>
+				<action android:name="cl.javiercruz.arvore.androidActivities.FileChooser" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+        </activity>
+        <activity
+            android:name="cl.javiercruz.arvore.androidActivities.FileChooserMaior"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="Escolhe Sample">
+            <intent-filter>
+				<action android:name="cl.javiercruz.arvore.androidActivities.FileChooserMaior" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+        </activity>
+        <activity
+            android:name="cl.javiercruz.arvore.androidActivities.FileChooserSession"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="Carrega Sessão">
+            <intent-filter>
+				<action android:name="cl.javiercruz.arvore.androidActivities.FileChooserSession" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+        </activity>
+        <activity
+            android:name="cl.javiercruz.arvore.androidActivities.FileChooserSalvar"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="Salvar Sessão">
+            <intent-filter>
+				<action android:name="cl.javiercruz.arvore.androidActivities.FileChooserSalvar" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+        </activity>
+        <activity
+            android:name="cl.javiercruz.arvore.androidActivities.FileChooserRec"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="[REC] Salvar audio ">
+            <intent-filter>
+				<action android:name="cl.javiercruz.arvore.androidActivities.FileChooserRec" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+        </activity>
+        
+        
+     </application>  
 </manifest>

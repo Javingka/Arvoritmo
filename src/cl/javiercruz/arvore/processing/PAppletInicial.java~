@@ -1,0 +1,347 @@
+package cc.tallerdinamo.arvore.processing;
+
+/* IMPORTANTE a ter presente:
+ * 
+ * 1- Para poder importar PApplet, temos primeiro que botar na pasta "libs" o arquivo:
+ * processing-android-core.jar que pode ser encontrado nas pasta Processing/Core ou
+ * http://www.java2s.com/Code/Jar/p/Downloadprocessingandroidcorejar.htm
+ * 
+ * 2- Cada sketch de processing que é criado pelo meio de um 'intent' tem que ser declarado
+ * no AndroidManifest.xml
+ * 
+ * 4- No final da classe tem os metodos proprios do ciclo de vida de uma Activity em Android
+ * E importante porque no onCreate pegamos dados que podem ser enviados desde o Main Activity
+ * 
+ * 3- Ao utilizar float tem que agregar ao numero uma 'f' no final. Por exemplo: float num = 3.14f;
+ */
+
+import java.io.File;
+import java.util.ArrayList;
+
+import org.puredata.core.PdBase;
+
+import cc.tallerdinamo.arvore.R;
+import cc.tallerdinamo.arvore.multitouch.MTListenerCallBack;
+import cc.tallerdinamo.arvore.multitouch.MultiTouchP;
+import cc.tallerdinamo.arvore.pdstuff.PdListenerCallBack;
+import cc.tallerdinamo.arvore.pdstuff.PureDataManager;
+import cc.tallerdinamo.arvore.processing.UIbotoes.Codigo;
+import cc.tallerdinamo.arvore.processing.arvoresystem.ArvoreSystem;
+import cc.tallerdinamo.arvore.processing.barra.BarraControl;
+import cc.tallerdinamo.arvore.processing.botoes.SampleSelector;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.NumberPicker;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import processing.core.PApplet;
+import processing.core.PVector;
+
+public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTListenerCallBack {
+	//esta variavel entrega um TAG para imprimir na consola mensagens que possam ser filtrados pelo TAG
+	private static final String TAG = "PAppletInicial";
+		
+	String stringVal;
+	float numeroFloat;
+
+	PureDataManager pdManager;
+	MultiTouchP multiTouch;
+	ArrayList <ArvoreSystem> arvores;
+	ArvoreSystem arvoreSys;
+	ArvoreSystem arvoreSys2;
+	
+	BarraControl barra;
+	SampleSelector sampleSelector;
+	private float scaleZoom; //nivel de zoom da imagem
+	private PVector translateZoom; //o deslocamento da imagem dentro do zoom
+	private boolean pauseGrl;
+	int cantidadInicialArvores;
+	private int modificacionCantArvore;
+	
+	public void setup(){
+		colorMode(HSB);
+		multiTouch = new MultiTouchP(this); //inicializa o multitouch de processing
+		
+		arvores = new ArrayList <ArvoreSystem>();
+		cantidadInicialArvores = 1;
+		colocaArvoresIniciais();
+		
+		
+		barra = new BarraControl(this, cantidadInicialArvores);
+		sampleSelector = new SampleSelector(this);
+//		sampleSelector.setTituloText("escolher \num som");
+		textSize(50);
+
+		background(20);
+		scaleZoom = 1;
+		pauseGrl = true;
+		translateZoom = new PVector (width/2,height/2);
+		modificacionCantArvore = 0;
+	}
+	
+	public void colocaArvoresIniciais(){
+		for (int a = 0 ; a < cantidadInicialArvores ;  a++) {
+			float ang = PApplet.TWO_PI / (a + 1);
+			int bpm = 600/ (a+1);
+			PVector pos = new PVector ( 0 ,  height*.25f); //posição da entrada de uma 
+			arvores.add (new ArvoreSystem(this, pos, height*.4f, 2, 4, bpm) );
+		}
+	}
+	
+	public void draw() {
+		background(150, 200,180);
+		if (modificacionCantArvore != 0) {
+			if (modificacionCantArvore == 1) {
+				float ang = PApplet.TWO_PI * (arvores.size() *.1f);
+				float diffx = width * .35f;
+				int bpm = 600/ (arvores.size()+1);
+				PVector pos = new PVector ( diffx * PApplet.cos(ang) ,   diffx * PApplet.sin(ang) );
+				arvores.add (new ArvoreSystem(this,pos , height*.4f, 2, 4, bpm) );
+			} else {
+				if (arvores.size() > 1)
+					arvores.remove(arvores.size()-1);
+			}
+			modificacionCantArvore = 0;
+		}
+		
+		for (ArvoreSystem as : arvores)
+			as.atualizaTamanhoArvore();
+		
+//		arvoreSys.atualizaTamanhoArvore();
+//		arvoreSys2.atualizaTamanhoArvore();
+		
+		pushMatrix();
+		translate(translateZoom.x, translateZoom.y); 
+		scale(scaleZoom);
+		marcaAgua();
+			
+		for (ArvoreSystem as : arvores) {
+			as.setTempoArv();	
+			as.ativaPontoSom();
+			as.desenhar();
+			as.codigo.desenhar();
+			as.trocaPosicaoDaArbore();
+		}
+		popMatrix();
+		
+		sampleSelector.desenhar();
+		barra.desenhar();
+	}
+	
+	public void marcaAgua() {
+		textSize(height*.04f);
+		textAlign(CENTER, CENTER);
+		fill(255,20);
+		text("ALVORITMO", width*.47f, height*.48f);
+//		textSize(height*.03f);
+//		text("beta", 0, height*.2f);
+	}
+/* METODOS PROPRIOS DE UM ACTIVITY, ligados direitamente ao ciclo de vida	
+ * http://www.devmedia.com.br/entendendo-o-ciclo-de-vida-de-uma-aplicacao-android/22922
+ */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState); 
+		//pegamos os valores "extras" que enviamos desde o MainActivity
+		Bundle extras=getIntent().getExtras(); //criamos um objeto que pega todos os extras existentes no intent
+		stringVal = extras.getString("Um String"); // pegamos o valor segundo a etiqueta dada no MainActivity
+		numeroFloat = extras.getFloat("Um float"); // pegamos o valor segundo a etiqueta dada no MainActivity
+
+	//Inicializaçāo do objeto que vai gerenciar o Pd
+		pdManager = new PureDataManager(this);
+	//coloca o nome do Patch, nāo confundir com o nome do arquivo .zip, e logo coloca 'path' desde onde pega o zip
+		pdManager.openPatch("ArvoreApp3b.pd", cc.tallerdinamo.arvore.R.raw.patch); 
+		pdManager.setTicksPerBuffer(1);
+		pdManager.setChanelIn(0);
+	//Agrega todos os Strings chaves que vāo receber dados
+//		pdManager.addSendMessagesFromPD(<Nome da mensagem>);
+		
+	
+	}
+	@Override 
+	public void onRestart(){
+		super.onRestart();
+		for (ArvoreSystem as : arvores) 
+			as.setTempoTo(0, true);
+		
+		barra.bPlayPause.turnBotaoOff();
+		barra.bPlayPause.setNomeBotao("PLAY"); 
+	}
+	@Override
+	public void onResume() {
+		super.onResume();
+		pdManager.onResume();
+		
+	}
+	@Override
+	public void onPause() {
+		super.onPause();
+		pdManager.onPause();
+	}
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		pdManager.onDestroy();
+	}
+	@Override
+	public void finish() {
+		super.finish();
+		pdManager.finish();
+	}
+
+/* MESSAGES TO SEND DATA TO PD. Para enviar mensagens pra PD usar os seguentes metodos
+ * 	pdBase.sendBang(String receiver);
+  	pdBase.sendFloat(String receiver, float value);
+    pdBase.sendSymbol(String receiver, String symbol);
+	pdBase.sendList(String receiver, Object... list);
+	pdBase.sendMessage(String receiver, String message, Oject... list);
+	
+	TO GET AN ARRAY FROM PD	
+	float [] newArray = pdManager.getArrayFromPd("nome do array em PD"); este metodo retorna o array.
+	TO SEND AN ARRAY TO PD	
+	pdManager.sendArrayToPD( float [] arrayToSend , "nome do array em PD"); este metodo envia um array de float para um outro array em PD
+	
+ */
+	
+//CALLBACKS FROM PD As seguentes funçōes sāo chamadas quando tiver alguma mensagem nova desde PD
+	@Override
+	public void callWhenReceiveFloat(String key, float val) {
+		// TODO Auto-generated method stub
+//		Log.i(TAG, "recebendo do PD = " + key + ": " + val );
+	}
+	@Override
+	public void callWhenReceiveBang(String key) {
+		// TODO Auto-generated method stub	
+	}
+	@Override
+	public void callWhenReceiveSymbol(String key, String symbol) {
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void callWhenReceiveList(String key, Object... args) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void callWhenReceiveMessage(String key, String symbol,
+			Object... args) {
+		// TODO Auto-generated method stub
+	}
+	
+//Método callback, que é chamado cada vez que tem um novo evento na tela
+	@Override
+	public void screenTouched(int id, float x, float y) {
+		// TODO Auto-generated method stub
+
+		PVector posT = new PVector (x,y);
+		barra.escutaClicks( posT );
+		modificacionCantArvore = barra.escutaGestonadorArvore( posT );
+			
+		sampleSelector.escutaClicks( posT );
+		
+		for (ArvoreSystem as : arvores) {
+			as.arvoreListener( posT, scaleZoom, translateZoom, sampleSelector.getSampleAtivo(), 
+					sampleSelector.getSampleRandom(), sampleSelector.getCorAtiva(), sampleSelector.getEfectoLigado() );
+			modificaArvore(as);
+		}
+		
+		if (barra.bPlayPause.click && id == 0 && !barra.bPlayPause.ligado) {
+			for (ArvoreSystem as : arvores) 
+				as.setTempoTo(0, true);
+			
+		} else if  (barra.bPlayPause.click && id == 0 && barra.bPlayPause.ligado) {
+			for (ArvoreSystem as : arvores) 
+				as.DaPlay();
+		}
+		
+		boolean testPlayPause = false;
+		for (ArvoreSystem as : arvores) {
+			testPlayPause = as.ArbPlayPause.ligado;
+		}
+		if (testPlayPause) {
+			barra.bPlayPause.turnBotaoOn();
+			barra.bPlayPause.setNomeBotao("STOP"); 
+		} else {
+			barra.bPlayPause.turnBotaoOff();
+			barra.bPlayPause.setNomeBotao("PLAY"); 
+		}
+		
+		if (barra.verControlesArvore.mudandoOn) {
+			for (ArvoreSystem as : arvores) 
+				as.setMuestraControles(true);
+		} else if (barra.verControlesArvore.mudandoOff) {
+			for (ArvoreSystem as : arvores) 
+				as.setMuestraControles(false);
+		}
+		
+		if (barra.invierte.mudandoOn) {
+			for (ArvoreSystem as : arvores) 
+				as.setDireccion(false);
+		} else if (barra.invierte.mudandoOff) {
+			for (ArvoreSystem as : arvores) 
+				as.setDireccion(true);
+		}
+			
+	}
+	private void modificaArvore (ArvoreSystem a) {
+		if (a.getEstadoMudanca(0)) { //verifica se o botāo de mudança da arvore foi clicado
+			a.mudancaTamanhoArvore(1);
+			a.setEstadoBotaoDeMudanca(0, false);
+		} else if (a.getEstadoMudanca(1)) {
+			a.mudancaTamanhoArvore(-1);
+			a.setEstadoBotaoDeMudanca(1, false);
+		} else if (a.getEstadoMudanca(2)) {
+			a.mudancaPontosSom(1);
+			a.setEstadoBotaoDeMudanca(2, false);
+		} else if (a.getEstadoMudanca(3)) {
+			a.mudancaPontosSom(-1);
+			a.setEstadoBotaoDeMudanca(3, false);
+		} 
+	}
+	@Override
+	public void screenTouchedReleased(int id) {
+		// TODO Auto-generated method stub
+	//	Log.i(TAG, "mutiTouch, released no id: " + id );
+	}
+	@Override
+	public void screenTouchedDragged(int id, float x, float y, float dist, float ang) {
+		// TODO Auto-generated method stub
+		
+		//negocio para atualizar o "pan" no zoom
+		if (id == 1) { 
+			PVector addToTrans = new PVector (dist * cos(ang), dist * sin (ang));
+			translateZoom.add(addToTrans);
+			return;
+		}
+		
+//		if (barra.escutaSlicer(new PVector (x, y)) )
+//			scaleZoom = barra.getSliderZoom();
+		
+		for (ArvoreSystem as : arvores) {
+			as.setListenerArvoreMove(new PVector (x, y), scaleZoom, translateZoom );
+			as.escutaSlicer(new PVector (x, y), scaleZoom, translateZoom );
+		}
+	}
+
+	@Override
+	public void screenTouchedPinch(float pinchMag) {
+		// TODO Auto-generated method stub
+		scaleZoom = scaleZoom + pinchMag*.001f;
+		scaleZoom = PApplet.constrain(scaleZoom, .03f, 6);
+	}
+	public boolean surfaceTouchEvent(MotionEvent me) {
+		multiTouch.surfaceTouchEvent(me);
+	    return super.surfaceTouchEvent(me);
+	}
+
+	
+
+
+	
+}

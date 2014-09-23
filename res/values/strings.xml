@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TemplateProcessingPdAndroid</string>
+    <string name="app_name">ARVORITMO</string>
+    <string name="app_start">	Começa	</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-
+    <string name="hello_world"> ARVORITMO</string>
+	<string name="select_sample">Carrega desde disco</string>
+	<string name="botao_select_sample">Troca sons</string>
+	<string name="botao_save_sample">Salva</string>
+	<string name="text_hit_save_sample">Nome</string>
+	<string name="save_rewrite_info">Se o nome do arquivo já existe, ele vai se reescrever</string>
+	
 </resources>
