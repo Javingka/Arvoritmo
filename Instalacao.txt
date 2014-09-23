@@ -1,0 +1,44 @@
+1.- Copiar el directorio
+
+2.- cambiar el nombre del paquete en AndroidMAnifest.xml
+
+3.- Se renombra en paquete principal con Refractor
+
+x- Dentro de la clase "MainActivity.java", hay que cambiar dentro de la función mGlobal_OnClickListener el 
+caminho o path " com.example.template. ", con el nombre nuevo del paquete.
+
+4.- Cambiar en nombre de la aplicación en AndroidMAnifest.xml
+
+5.- Haz una lista con los mensajes que se enviarán y se recibirán en PD, además de los nombres de los array
+    que se utilizaran 
+
+	PD nome Array:
+		array_crash
+		array_clap
+		array_clav
+		array_kick
+		
+	Pd receive:
+		r som_Clash01
+		r SomClap01
+		r SomClav01
+		r SomKick01
+		
+	PD send:
+		s pos_clash
+		s pos_clap
+		s pos_clav
+		s pos_k
+		
+6- Comprime el patch de pure data junto a todos los archivos asociados en un .zip de nombre "patch.zip"
+
+7- Colocar el archivo .zip dentro de la carpeta res/raw 
+
+X- dentro de PAppletInicial, en el metodo Oncreate tienes que colocar el nombre del patch de PD que vas a utilizar
+ y reemplazar nuevamente el nombre del paquete 
+ pdManager.openPatch("ArvoreApp.pd", cc.tallerdinamo.arvore.R.raw.patch); 
+ 
+ X- También dentro de OnCreate tienes que declarar todos los strings que definiran los mensajes que se 
+ reciben y se envian a PD
+ 
+ 
