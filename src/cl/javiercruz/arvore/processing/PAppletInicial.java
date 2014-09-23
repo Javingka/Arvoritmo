@@ -157,7 +157,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 		textSize(height*.04f);
 		textAlign(CENTER, CENTER);
 		fill(255,20);
-		text("ALVORITMO", width*.47f, height*.48f);
+		text("ARVORITMO", 0, height*3f);
 //		textSize(height*.03f);
 //		text("beta", 0, height*.2f);
 	}
@@ -315,7 +315,9 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 					sampleSelector.getSampleRandom(), sampleSelector.getCorAtiva(), sampleSelector.getEfectoLigado() );
 			modificaArvore(as); //e modifica galhos, e/ou pontos x árvore. Se for o caso
 			
-			testPlayPause = as.ArbPlayPause.ligado;//Se alguma árvore tem ligado o play 'testPlayPause' vira true
+			if (as.ArbPlayPause.ligado) { //Se alguma árvore tem ligado o play 'testPlayPause' vira true
+				testPlayPause = true;
+			}
 		}
 		
 		if (testPlayPause) { //Se alguma árvore tem ligado o play o PLAY geral vira ligado também e mostra a palabra STOP para parar
@@ -417,15 +419,11 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 				
 				Log.i("onActivityResult", "pathSample: " + pathSample );
 				
-				String[] parts = split(pathSample, '/');
-				Log.i("onActivityResult", "parts: " + parts[0] );
-				String nome = parts[ (parts.length - 1 )];
-				String[] nomeSplit = split(nome,'.');
-				Log.i("onActivityResult", "nomeSplit: " + nomeSplit[0] );
-				nome = nomeSplit[0];
+				String nome = getNameFromPath(pathSample);
 				
 				Log.i("onActivityResult", "nome Sample: " + nome );
 				sampleSelector.setBotaoSampleNome(nome);
+				sampleSelector.setBotaoSampleNewPath(pathSample);
 				
 				PdBase.sendFloat("sample_array", sampleSelector.getIndexLigado()+1 ); //+1 para coincidir com o nome dos arrays em pd, que começam em 1 nçao em 0
 				PdBase.sendSymbol("pathSample", pathSample);
@@ -479,6 +477,19 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 			
 		}
 	}
+	/**
+	 * Função para pegar o nome do arquino no path
+	 * @param path
+	 * @return
+	 */
+	private String getNameFromPath(String path) {
+		String n;
+		String[] parts = split(path, '/');
+		String nome = parts[ (parts.length - 1 )];
+		String[] nomeSplit = split(nome,'.');
+		n = nomeSplit[0];
+		return n;
+	}
 /*============================================================================================================
 * Funções de leitura e guardado de dados
 * =================================================================================================================*/
@@ -496,6 +507,14 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 			sessao.put("scaleZoom", scaleZoom );
 			sessao.put("translateZoom.x", translateZoom.x );
 			sessao.put("translateZoom.y", translateZoom.y );
+			sessao.put("pathSample0", sampleSelector.getStringPathSample(0) );
+			sessao.put("pathSample1", sampleSelector.getStringPathSample(1) );
+			sessao.put("pathSample2", sampleSelector.getStringPathSample(2) );
+			sessao.put("pathSample3", sampleSelector.getStringPathSample(3) );
+			sessao.put("pathSample4", sampleSelector.getStringPathSample(4) );
+			sessao.put("pathSample5", sampleSelector.getStringPathSample(5) );
+			sessao.put("pathSample6", sampleSelector.getStringPathSample(6) );
+			
 			
 			for (ArvoreSystem as : arvoreS) { //pasamos por cada árvore
 				JSONObject arvoreAux = new JSONObject(); //creamos o objeto que vai se preencher dos dados
@@ -564,7 +583,20 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 			float tanslateY = ( (Double) sessao.get("translateZoom.y") ).floatValue();//sessao.getDouble("translateZoom.y");
 			translateZoom = new PVector (tanslateX, tanslateY);
 			
-	//		Log.i(TAG, "sessao.get(scaleZoom): " + sessao.get("scaleZoom") );
+			//Pegamos o array com os path dos samples utilizados, carregamos eles e atualizamos no sampleSelector
+			String [] pathSamples = new String[7];
+			for (int i=0 ; i < pathSamples.length ; i++ ) {
+				String nomeKeyJSON = "pathSample" + i;
+				pathSamples[i] =  (String) sessao.get(nomeKeyJSON);	
+				Log.i(TAG, "pathSamples["+i+"]: " + pathSamples[i] );
+				PdBase.sendFloat("sample_array",i+1 ); //+1 para coincidir com o nome dos arrays em pd, que começam em 1 nçao em 0
+				PdBase.sendSymbol("pathSample", pathSamples[i]);
+				
+				String nome = getNameFromPath(pathSamples[i]);
+				sampleSelector.setBotaoSampleNome(nome, i);
+			}			
+			sampleSelector.setPathSamples(pathSamples);
+			
 			
 			arvoreArray = (JSONArray) sessao.get("arvores");//  .getJSONArray("arvores");
 			

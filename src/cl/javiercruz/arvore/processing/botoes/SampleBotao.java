@@ -19,6 +19,7 @@ public class SampleBotao extends BotaoBase{
 	private int estado;
 	BotaoBase reproductor;
 	public BotaoBase efectoSwitch;
+	int colorOn;
 	/**
 	 * 
 	 * @param _p5 / PApplet - Objeto do  PAppletInicial
@@ -35,6 +36,7 @@ public class SampleBotao extends BotaoBase{
 		aberto = false;
 		estado = 0;
 		setPosicoesBotoes(_pos);
+		colorOn = 255;
 	}
 	/**
 	 * Posicionamento dos botoes de reprodução do som e de incrporação de efeito
@@ -144,14 +146,14 @@ public class SampleBotao extends BotaoBase{
 		}
 		return resp;
 	}
-	@Override //reescribimos esta funciona para agregar un propio switch de cambio para visualizar el boton abierto
+	@Override //reescribimos esta funciona para agregar un propio switch de cambio para visualizar el boton abierto e agrandar a parea de toque
 	public boolean botaoToogleOnClick (PVector evaluar) {
 		boolean ligadoPrev = ligado;
 		boolean resp = false;
 		click = false;
 		float dist = PVector.dist(pos, evaluar);
 		
-		if (dist < diam ) {
+		if (dist < diam * 1.5f) {
 			if (botaoToggle && !ligado) {
 				resp = true;
 				click = true;
@@ -192,8 +194,27 @@ public class SampleBotao extends BotaoBase{
 	}
 	@Override
 	public void desenhaTextoYOffset( float YOff) {
-		p5.fill(255);
+		p5.fill(255,colorOn);
 		p5.textSize(tamanhoTextoBotao);
 		p5.text(nomeSampleBotao, tx, ty + YOff);
+		
+		colorOn--;
+		if (colorOn < 0) colorOn = 0;
+	}
+	@Override
+	public void testMudanca(boolean ligadoPrev) {
+		if (ligado && !ligadoPrev) {
+			mudandoOn = true;
+			colorOn = 255;
+		} else
+			mudandoOn = false;
+		
+		if (!ligado && ligadoPrev)
+			mudandoOff = true;
+		else
+			mudandoOff = false;
+	}
+	public void setColorOn() {
+		colorOn = 255;
 	}
 }

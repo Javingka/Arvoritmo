@@ -29,7 +29,16 @@ public class SampleSelector {
 	public BotaoBase botaoTrocaSample;
 	public BotaoNomeRect menuSons;
 	public boolean abreJanelaSample;
-	String [] samplesIniciais = {
+	public String [] pathSamples = {
+			"audioSamples/Percussion/ADD1_CongaPerc_03.wav",
+			"audioSamples/Sounds_FX/ADD1_Duck_1.wav",
+			"audioSamples/Percussion/ADD1_TinPerc_03.wav",
+			"audioSamples/Toms/ADD1_LoTom_01_p01.wav",
+			"audioSamples/Kick/ADD1_StomperKick.wav",
+			"audioSamples/Cymbal_Hihat/ADD1_HiHat_39.wav",
+			"audioSamples/Instruments/bassslap02.wav"
+	};
+	public String [] samplesNomeShow = {
 			"ADD1_CongaPerc_03",
 			"ADD1_Duck_1",
 			"ADD1_TinPerc_03",
@@ -68,25 +77,14 @@ public class SampleSelector {
 			samples.add(new SampleBotao ( p5, new PVector (px, py), altura*.35f, p5.color((255/cantBotoes)*i, 255, 255), "silencio", i ) );
 			((SampleBotao)samples.get(i)).setBotaoComoToggle();
 			((SampleBotao)samples.get(i)).setPosicaoTexto("centro", "direita");
-			((SampleBotao)samples.get(i)).setNomeSampleBotao(samplesIniciais[i]);		//agregamos os nomes dos samples segundo os samples que estão colocanos no patch de PureData
+			((SampleBotao)samples.get(i)).setNomeSampleBotao(samplesNomeShow[i]);		//agregamos os nomes dos samples segundo os samples que estão colocanos no patch de PureData
 
 			cont++;
 			cont = cont % 2;
 		}
 		
-		
-		
 		samples.get(indexLigado).setEstadoBotao(true);
 		tituloSelector = " ";
-		
-/*		PVector posicaoMuestraC = new PVector (bloqueBotaoWidth, menuSons.getBotaoHeight()/2 ); //new PVector (p5.width*.95f, p5.height*.05f)
-		botaoMuestraControles = new BotaoBase(p5, posicaoMuestraC, altura*.6f, p5.color(255*100/34, 255*100/99, 255*100/100) );
-		botaoMuestraControles.setPosicaoTexto("centro", "direita");
-		botaoMuestraControles.setNomeBotao(" ");
-		botaoMuestraControles.setTamanhoEtiqueta(.4f);
-		botaoMuestraControles.setEtiqueta("ver\n+");*/
-		
-//		botaoMuestraControles.setColorOff(p5.color(120,120));
 		
 		PVector posicaoMuestraC2 = new PVector (bloqueBotaoWidth, menuSons.getBotaoHeight()/2 );
 		botaoTrocaSample= new BotaoBase(p5, posicaoMuestraC2, altura*.8f, p5.color(255*100/16, 255*100/85, 255*100/95));
@@ -97,9 +95,15 @@ public class SampleSelector {
 		botaoTrocaSample.setImageBotao("ic_action_import_export.png");
 		
 		SetSamplesName();
+	}	
+	public void setBotaoSampleNewPath(String newP){
+		pathSamples[getIndexLigado()] = newP;
 	}
 	public void setBotaoSampleNome(String nom) {
 		samples.get(getIndexLigado()).setNomeSampleBotao(nom);
+	}
+	public void setBotaoSampleNome(String nom, int index) {
+		samples.get(index).setNomeSampleBotao(nom);
 	}
 	public void setTituloText(String s) {
 		tituloSelector = s;
@@ -192,8 +196,8 @@ public class SampleSelector {
 					botaoTrocaSample.setColorFixo(bs.getColorOn());
 					PdBase.sendBang( ((SampleBotao) bs).getSampleNome() );  //Emite o son do sample ao pressoar o botao
 				}
-				bs.escutaBotoesInternos( evalua );
-		/*		if (cambiaAbertura) {
+		/*		bs.escutaBotoesInternos( evalua );
+				if (cambiaAbertura) {
 					bs.cambiaAbertura();
 				}	
 				
@@ -211,6 +215,11 @@ public class SampleSelector {
 			}
 		}
 		resp = menuSons.botaoOnClick(evalua);
+		if (resp){
+			for (SampleBotao bs : samples) {
+				bs.setColorOn();
+			}
+		}
 		return resp;
 	}
 	public boolean abreJanelaSample(){
@@ -242,6 +251,14 @@ public class SampleSelector {
 		((SampleBotao) samples.get(5)).setNomeSample("sample6");
 		((SampleBotao) samples.get(6)).setNomeSample("sample7");
 	}
-	
-	
+	public String[] getPathSamples() {
+		return pathSamples;
+	}
+	public void setPathSamples( String[] ps ) {
+		pathSamples = ps;
+	}
+	public String getStringPathSample (int index){
+		String ps = pathSamples[index];
+		return ps;
+	}
 }
