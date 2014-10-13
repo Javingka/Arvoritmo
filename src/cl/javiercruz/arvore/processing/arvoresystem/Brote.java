@@ -57,7 +57,7 @@ public class Brote {
 		p5.pushStyle();
 		
 		p5.translate (posicao.x, posicao.y);
-		p5.fill(colorF);
+		p5.fill(209,141,184);//colorF);
 		p5.rotate( ang );
 		p5.line(0,0,comprimento,0);
 		p5.translate(comprimento,0);

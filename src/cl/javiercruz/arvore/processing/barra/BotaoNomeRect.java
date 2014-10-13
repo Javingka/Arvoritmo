@@ -1,5 +1,6 @@
 package cl.javiercruz.arvore.processing.barra;
 
+import android.util.Log;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PVector;
@@ -19,6 +20,7 @@ public class BotaoNomeRect {
 	private float widthTran; //largura variabel do retangulo botao, 
 	private float anguloDirec;
 	private boolean direita = false;
+	private int colorMuda;
 	
 	public BotaoNomeRect(PApplet _p5, String nomeBotao) {
 		p5 = _p5;
@@ -34,9 +36,10 @@ public class BotaoNomeRect {
 		posicaoBotaoOff = new PVector(widthB*.25f, heightB*.5f);
 		widthBOff = widthB*.25f;
 		ligado = false;
-		colorOn = p5.color(200,150);
-		colorOff = p5.color(255,50);
+		colorOn = p5.color(203,108,66) ; //p5.color(255 * 34/360f, 255 * .99f, 255,60);
+		colorOff = p5.color(11, 191,  231) ; //p5.color(255 * 40/360f, 255 * .86f, 255 * 1f, 120);
 		anguloDirec = 0;
+		colorMuda = p5.color(0);
 	}
 	BotaoNomeRect(PApplet _p5, String nomeBotao, String direitaSup) {
 		this( _p5, nomeBotao) ;
@@ -54,18 +57,23 @@ public class BotaoNomeRect {
 		else
 			p5.textAlign(p5.RIGHT, p5.CENTER);
 		
-		p5.rectMode(p5.CENTER);
+		p5.rectMode(PApplet.CENTER);
 		p5.noStroke();
 		
 		if (ligado) {
+			colorMuda = colorOn; //lerpColorEsp(colorMuda,colorOn);
 			posTran = PVector.lerp(posTran, posicaoBotao, .1f);
 			widthTran = PApplet.lerp(widthTran, widthB, .1f);
-			p5.fill(colorOn);
+			p5.fill(colorMuda);
 		} else {
+			colorMuda = colorOff; //lerpColorEsp(colorMuda,colorOff);
 			posTran = PVector.lerp(posTran, posicaoBotaoOff , .1f);
 			widthTran = PApplet.lerp(widthTran , widthBOff, .1f);
-			p5.fill(colorOff);
+			p5.fill(colorMuda);
 		}
+		
+		
+		
 		p5.translate(posTran.x, posTran.y);
 		p5.rotate(anguloDirec);
 		p5.rect(0,0, widthTran, heightB);
@@ -77,6 +85,18 @@ public class BotaoNomeRect {
 		p5.text(nomeBotao, 0,0);
 		p5.popStyle();
 		p5.popMatrix();
+	}
+	private int lerpColorEsp(int c1, int c2){
+		float h = p5.hue(c1);
+		float b = p5.brightness(c1);
+		float s = p5.saturation(c1);
+		
+		h = PApplet.lerp (h, p5.hue(c2), .1f );
+		b = PApplet.lerp (b, p5.brightness(c2), .1f );
+		s = PApplet.lerp (s, p5.saturation(c2), .1f );
+		
+		int c = p5.color(h,s,b);
+		return c;
 	}
 	/**
 	 * 

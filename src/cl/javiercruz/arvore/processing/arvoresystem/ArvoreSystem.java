@@ -108,7 +108,7 @@ public class ArvoreSystem {
 		ArbPlayPause.setNomeBotao(" ");
 		ArbPlayPause.setOffsetToPosII(new PVector(-p5.height*.1f , 0 ) );
 		
-		bpmSelector = new BpmSelector ( p5, new PVector (px, py + offset_y_bpm), p5.height*.05f, p5.color(150, 200,180), p5.width*.2f, bpmIni );
+		bpmSelector = new BpmSelector ( p5, new PVector (px, py + offset_y_bpm), p5.height*.05f, colorFundo, p5.width*.2f, bpmIni );
 		bpmSelector.setPosicaoTexto("acima", "centro");
 		bpmSelector.setNomeBotao("bits por minuto");
 		bpmSelector.setVerticalFalse();
@@ -219,15 +219,19 @@ public class ArvoreSystem {
 		botoesModificaArvore[0] = new BotaoBase ( p5, new PVector (px - diamBotao*5f, py + diamBotao) ,  diamBotao, colorFundo );
 		botoesModificaArvore[0].setTamanhoEtiqueta(1);
 		botoesModificaArvore[0].setEtiqueta("+");
+		botoesModificaArvore[0].setColorOff( colorFundo );
 		botoesModificaArvore[1] = new BotaoBase ( p5, new PVector (px - diamBotao*2f, py + diamBotao) ,  diamBotao, colorFundo );
 		botoesModificaArvore[1].setTamanhoEtiqueta(1);
 		botoesModificaArvore[1].setEtiqueta("-");
+		botoesModificaArvore[1].setColorOff( colorFundo );
 		botoesModificaArvore[2] = new BotaoBase ( p5, new PVector (px + diamBotao*2f, py + diamBotao) ,  diamBotao, colorFundo );
 		botoesModificaArvore[2].setTamanhoEtiqueta(1);
 		botoesModificaArvore[2].setEtiqueta("+");
+		botoesModificaArvore[2].setColorOff( colorFundo );
 		botoesModificaArvore[3] = new BotaoBase ( p5, new PVector (px + diamBotao*5f, py + diamBotao) ,  diamBotao, colorFundo);
 		botoesModificaArvore[3].setTamanhoEtiqueta(1);
 		botoesModificaArvore[3].setEtiqueta("-");
+		botoesModificaArvore[3].setColorOff( colorFundo );
 		
 		botoesModificaArvore[0].setPosicaoTexto("centro", "direita");
 		botoesModificaArvore[0].setNomeBotao(""+cantGalhos); //""+ permite comverter rapido de int a string
@@ -497,8 +501,10 @@ public class ArvoreSystem {
 	}
 	public boolean escutaSlider(PVector evaluacao, float scaleZoom, PVector translateZoom) {
 		boolean resp = false; 
-		if (bpmSelector.bpmSlicerOnClick(evaluacao, scaleZoom, translateZoom)) {
-			resp = true;
+		if (muestraControles) {
+			if (bpmSelector.bpmSlicerOnClick(evaluacao, scaleZoom, translateZoom)) {
+				resp = true;
+			}
 			bpmSelector.setBpm();
 		}
 		return resp;
@@ -567,7 +573,7 @@ public class ArvoreSystem {
 	private void desenhaLinhasNiveisRecursivos() {
 		//desenho das linhas que marcam os niveis de recursividade
 		p5.strokeWeight(1);
-		p5.stroke( 255 );
+		p5.stroke( 0 ) ; // ( 255 * 34/360f, 255 * .99f, 255 * 1f );
 		int eval = 0;
 		int evalA = 0;
 		float anguloDesenho = PApplet.PI*.5f / (cantGalhos-1);
@@ -799,8 +805,8 @@ public class ArvoreSystem {
 		
 		if (mudancaArvore < 1) //Para asegurar de não ter menos que um galho por árvore
 			mudancaArvore = 1;
-		if (mudancaArvore > 8) //Para asegurar de não ter mais que 8 galhos
-			mudancaArvore = 8;
+		if (mudancaArvore > 4) //Para asegurar de não ter mais que 4 galhos
+			mudancaArvore = 4;
 	}
 	
 	public void mudancaPontosSom(int mudancaEmPontos) {
@@ -819,16 +825,18 @@ public class ArvoreSystem {
 			mudancaGalho = 8;
 	}
 	public void atualizaTamanhoArvore(){
+		//Log.i( "ArvoreSystem" , "mudancaArvore: " + mudancaArvore+ " mudancaGalho:" + mudancaGalho);
 		if (arvoreCresce) {
 			addGalhoEPontos(mudancaArvore, mudancaGalho );
 			arvoreCresce = false;
+		  mudancaGalho = mudancaArvore = 0;	
 		} else if (arvoreDisminui) {
 			subGalhoEPontos(mudancaArvore, mudancaGalho );
 			arvoreDisminui = false;
+			mudancaGalho = mudancaArvore = 0;	
 		}
 		botoesModificaArvore[2].setNomeBotao(""+PontosPorGalho); //atualiza o botão
 		botoesModificaArvore[0].setNomeBotao(""+cantGalhos); //atualiza o botão
-		
 	}
 
 	public float getPx() {

@@ -62,7 +62,7 @@ public class BotaoPlay extends BotaoBase {
 		} else  {
 			PosEfetiva = posII;
 		}
-		p5.strokeWeight(3);
+		p5.strokeWeight(1);
 		p5.stroke(255);
 		if (!ligado) {
 			p5.pushMatrix();
@@ -120,7 +120,7 @@ public class BotaoPlay extends BotaoBase {
 			p5.pushMatrix();
 			p5.rectMode(PApplet.CENTER);
 			p5.translate(pos.x, pos.y);
-			p5.fill(colorOff);
+			p5.fill(colorOn);
 			p5.rect(0, 0, diam, diam);
 			if (textoBotao != null) {
 				atualizaDataTexto();

@@ -174,7 +174,7 @@ public class BotaoBase {
 
 		p5.translate(PosEfetiva.x, PosEfetiva.y);
 		p5.fill(cargaColor);
-		p5.strokeWeight(3);
+		p5.strokeWeight(2);
 		p5.stroke(255);
 		if (!temIcone)
 			p5.ellipse(0,0, diam, diam);

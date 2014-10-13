@@ -8,11 +8,14 @@ import org.puredata.core.PdBase;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,7 +50,13 @@ public class FileChooserMaior extends ListActivity {
 	    } catch (NameNotFoundException e) {
 	        Log.w("yourtag", "Error Package name not found ", e);
 	    }
-	    pastaBaseDeSamples += "/files/audioSamples";
+//	    AssetManager am = getAssets();
+//	    pastaBaseDeSamples += "/samples"; //"/files/audioSamples";
+//	    File ps = getCacheDir();
+//	    pastaBaseDeSamples = ps.getPath();
+	    File f = getFilesDir();
+	    pastaBaseDeSamples = f.getPath() ;
+	    pastaBaseDeSamples += "/audioSamples";
 	    Log.i("FileChooserMaior", "pastaBaseDeSamples: " + pastaBaseDeSamples );
 //	    pastaBaseDeSamples = getApplicationFilePath(this); //App.getApp().getApplicationContext().getFilesDir().getAbsolutePath();//"audioSamples";
 	        

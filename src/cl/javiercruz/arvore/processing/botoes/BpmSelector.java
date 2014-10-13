@@ -20,9 +20,11 @@ public class BpmSelector extends SliderZoom {
 		mais = new BotaoBase ( p5, new PVector (xMax + diam , pos.y), _diam, _color );
 		mais.setPosicaoTexto("centro", "centro");
 		mais.setNomeBotao("+1");
+		mais.setColorOff( _color ); //p5.color(0) );
 		menos = new BotaoBase ( p5, new PVector (xMin - diam , pos.y), _diam, _color );
 		menos.setPosicaoTexto("centro", "centro");
 		menos.setNomeBotao("-1");
+		menos.setColorOff( _color ); //p5.color(0) );
 		tamanhoTextoBotao = diam * .55f;
 		setPosSegunBpm();
 	}
@@ -66,10 +68,10 @@ public class BpmSelector extends SliderZoom {
 		p5.pushMatrix();
 		p5.rectMode(PApplet.CENTER);
 		p5.translate(x,  y);
-		p5.rect(0,0 , diam*2f, diam, 7);
+		p5.rect(0,0 , diam*3f, diam*1.15f, 7);
 		p5.fill(255);
 		p5.textAlign(PApplet.CENTER, PApplet.CENTER);
-		p5.textSize(17);
+		p5.textSize(22);
 		p5.text("<"+bpm+">", 0, 0);
 		p5.popMatrix();
 	}
@@ -90,10 +92,12 @@ public class BpmSelector extends SliderZoom {
 			bpm++;
 			setPosSegunBpm();
 			resp = true;
+			mais.turnBotaoOff();
 		} else if ( menos.botaoOnClick(evaluar, scalaZoom, translateZoom) ) {
 			bpm--;
 			setPosSegunBpm();
 			resp = true;
+			menos.turnBotaoOff();
 		}
 		return resp;
 	}

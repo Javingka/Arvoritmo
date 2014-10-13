@@ -17,7 +17,7 @@ public final class R {
 	}
 	public static final class drawable {
 		public static final int din5 = 0x7f020001;
-		public static final int icon = 0x7f020057;
+		public static final int icon = 0x7f02001f;
 	}
 	public static final class id {
 		public static final int paired_devices = 0x7f0c0004;

@@ -130,7 +130,10 @@ public class SampleBotao extends BotaoBase{
 				reproductor.setNomeBotao("escuta");
 			
 			reproductor.setEstadoBotao(false);
-		} else if (efectoSwitch.botaoOnClick(evaluar)) {
+		} 
+		//COMENTAMOS EFECTO por que esta versión de App no integra efectos en los sonidos
+		/* 
+		else if (efectoSwitch.botaoOnClick(evaluar)) {
 			resp = true;
 			if (efectoSwitch.mudandoOn) {
 				String nome = "efecto" + nomeSample;
@@ -143,7 +146,7 @@ public class SampleBotao extends BotaoBase{
 				efectoSwitch.setNomeBotao("efecto On");
 			else
 				efectoSwitch.setNomeBotao("efecto Off");
-		}
+		}*/
 		return resp;
 	}
 	@Override //reescribimos esta funciona para agregar un propio switch de cambio para visualizar el boton abierto e agrandar a parea de toque

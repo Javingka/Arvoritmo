@@ -28,7 +28,6 @@ public class PontoNota {
 	private int numPosicaoNoGalho;
 	private boolean filtro;
 	public boolean conEfecto;
-	
 	PontoNota (PApplet _p5, PVector _pos, int posNoGalho) {
 		p5 = _p5;
 	    pos = _pos;
@@ -36,10 +35,12 @@ public class PontoNota {
 	    ativo = false;
 //	    colorOff = p5.color((125*255)/360, 255, 255);
 //	    colorOn = p5.color((300*255)/360, 255, 255);
-	    colorOffSound = p5.color(150, 200,180); 
+	    
+	    colorOffSound = p5.color(209, 141, 184);// p5.color(255 * 40/360f, 255 * .86f, 255); 
 	    pegaColor = colorOffSound;
 	    numPosicaoNoGalho = posNoGalho;
 	    diametro = diametroOff;
+	    diametroOnPlay = diametro * 1.5f;
 	    CONTADOR++;
 	    filtro = false;
 //	    Log.i("PontoNota", "colorOffSound: "+colorOffSound);
@@ -73,9 +74,10 @@ public class PontoNota {
 		diametro = diametroOff;
 	}
 	public void desenhar() {
-		atualiza();
+		if (!ativo)atualiza();
 		float diam = diametro;
 	   p5.pushMatrix();
+		//	 p5.pushStyle();
 	   p5.translate(pos.x, pos.y);
 	   p5.strokeWeight(diametro * .1f);
 /*	   if (!ativo){
@@ -83,12 +85,14 @@ public class PontoNota {
 		   diam *= .8f;
 	   } */
 	   p5.fill (pegaColor);
+		 p5.stroke( 255 * 34/360f , 255 * .57f, 255 * .25f);
+		 //pegaColorp5.stroke();
 	   p5.ellipse(0,0, diam, diam);
 	   if (conEfecto) {
 		   p5.fill (255);
 		   p5.ellipse(0,0, diam*.4f, diam*.4f);  
 	   }
-		   
+	//	 p5.popStyle(); 
 	   p5.popMatrix();
 	  } 
 	  
@@ -96,20 +100,23 @@ public class PontoNota {
 //		float var =  PApplet.cos( p5.frameCount * .005f);
 //		var = PApplet.map(var, -1, 1, 0, 255);
 //		colorOn = p5.color(var, 255, 255);
-		colorOn = p5.color(255);//255/6, 255, 255);  
+		  
+		colorOn = p5.color(0);//255/6, 255, 255);  
 		pegaColor = colorOn;
-		diametro =diametroOnPlay;
+		diametro = diametroOnPlay;
 	    ativo = true;
 	    filtro = false;
 	    return 		pegaColor;
 	  }
 	  public void switchToColorOffSound() {
-		  int pc = (int) p5.hue(colorOffSound);
+		int pc = (int) p5.hue(colorOffSound);
+		int ps = (int) p5.saturation(colorOffSound);
+		int pb = (int) p5.brightness(colorOffSound);
 		 //Log.i("PontoNota", "INSIDE: " + pc + " filtro: " + filtro);
 		if (filtro) {
-			  pegaColor = p5.color(pc,255, 255, 150);
+			  pegaColor = p5.color(pc,ps, pb, 150);
 		} else
-			pegaColor = p5.color(pc, 255, 255);
+			pegaColor = p5.color(pc, ps, 255);
 	  }
 	  public void botaFiltroNaCor() {
 		  filtro = true;
@@ -118,13 +125,17 @@ public class PontoNota {
 		  filtro = false;
 	  }
 	  public void switchToOff(int indexPonto){
-		  filtro = false;
+		int h = (int) p5.hue(colorOffSound);
+		int s = (int) p5.saturation(colorOffSound);
+		int b = (int) p5.brightness(colorOffSound);
+		
+	    filtro = false;
 		float var =  PApplet.cos( p5.frameCount * .005f);
-		var = 150 * (1 + var*.1f );
+		var = 80 * (1 + var*.1f );
 		if (indexPonto % 2 == 1)
-			colorOff = p5.color(150, 200,180, var); //(125*255)/360, 50, 120, var);
+			colorOff = p5.color(h, s,b, var); //(125*255)/360, 50, 120, var);
 		else 
-			colorOff = p5.color(150, 200,180, var-50); //(125*255)/360, 50, 120, var-50);
+			colorOff = p5.color(h, s,b, var-50); //(125*255)/360, 50, 120, var-50);
 		
 		pegaColor = colorOff;
 		  

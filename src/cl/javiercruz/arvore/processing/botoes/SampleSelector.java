@@ -74,7 +74,7 @@ public class SampleSelector {
 			}
 //			float py = (bloqueBotaoHeight*.75f) + (bloqueBotaoHeight*1.25f) * i;
 //			samples.add(new SampleBotao ( p5, new PVector (px, posY), altura*.35f, p5.color((255/cantBotoes)*i, 255, 255), "silencio", i ) );
-			samples.add(new SampleBotao ( p5, new PVector (px, py), altura*.35f, p5.color((255/cantBotoes)*i, 255, 255), "silencio", i ) );
+			samples.add(new SampleBotao ( p5, new PVector (px, py), altura*.35f, p5.color(45+(200/cantBotoes)*i, 255, 255), "silencio", i ) );
 			((SampleBotao)samples.get(i)).setBotaoComoToggle();
 			((SampleBotao)samples.get(i)).setPosicaoTexto("centro", "direita");
 			((SampleBotao)samples.get(i)).setNomeSampleBotao(samplesNomeShow[i]);		//agregamos os nomes dos samples segundo os samples que estão colocanos no patch de PureData
@@ -196,8 +196,8 @@ public class SampleSelector {
 					botaoTrocaSample.setColorFixo(bs.getColorOn());
 					PdBase.sendBang( ((SampleBotao) bs).getSampleNome() );  //Emite o son do sample ao pressoar o botao
 				}
-		/*		bs.escutaBotoesInternos( evalua );
-				if (cambiaAbertura) {
+				bs.escutaBotoesInternos( evalua );
+			/*		if (cambiaAbertura) {
 					bs.cambiaAbertura();
 				}	
 				

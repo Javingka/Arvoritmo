@@ -90,7 +90,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 		multiTouch = new MultiTouchP(this); //inicializa o multitouch de processing
 		arvores = new ArrayList <ArvoreSystem>();
 		cantidadInicialArvores = 1;
-		colorFundo = color(150, 200,180);
+		colorFundo = color( 205,98, 124); //color(150, 200,180); //color(255*.111f, 255*.86f, 255f ) ; //
 		colocaArvoresIniciais();
 		
 		barra = new BarraControl(this, cantidadInicialArvores, colorFundo); //Barra de control geral das árvores
@@ -133,7 +133,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 			as.ativaPontoSom();
 			as.desenhar();
 			as.codigo.desenhar();
-			as.trocaPosicaoDaArbore();
+			as.trocaPosicaoDaArbore();  
 		}
 		popMatrix();
 		
@@ -257,8 +257,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 		
 	}
 	@Override
-	public void callWhenReceiveMessage(String key, String symbol,
-			Object... args) {
+	public void callWhenReceiveMessage(String key, String symbol, 	Object... args) {
 		// TODO Auto-generated method stub
 	}
 
@@ -271,6 +270,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 
 		PVector posT = new PVector (x,y);
 		
+		/** Deteção de interação para salvar ou carregar sessões | return */
 		if ( barra.escutaSalva(posT) ) {
 			salvaSessao();
 			return;
@@ -278,22 +278,23 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 			escolheSessao();
 			return;
 		}
-		
+		/** Deteção de botão rec, grabação de audio | return */	
 		if (barra.escutaBRec(posT)) {
 			salvaAudio();
 			return;
 		}
+		/** Seleção do sample Ativo | return */
 		if (sampleSelector.escutaClicks( posT ) ) {//define o sample ativo seleccionado
 			return;
 		}
+		/** Seleção de sample desde archivo | NO return */
 		if(sampleSelector.abreJanelaSample()) {
 			escolheSampleEmDisco(0);
 			sampleSelector.abreJanelaSample = false;
 		}
-		
-		
+		/** Deteção se soma ou resta árvores */
 		modificacionCantArvore = barra.escutaGestonadorArvore( posT ); //escuta se soma ou resta árvores
-		
+		/** Se não tem modificações na árvore evalua os click no menu expandile Arvore | NO return */	
 		if (modificacionCantArvore == 0 ) {
 			if (barra.escutaClicks( posT )); //evalua o click na barra só se não tiver modificação na árvore
 			
@@ -309,7 +310,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 			barra.menuArvore.turnBotaoOff(); 
 		}
 		
-		boolean testPlayPause = false;
+		boolean testPlayPause = false; //Se alguma árvore tem ligado o play 'testPlayPause' vira true
 		for (ArvoreSystem as : arvores) { //evalua se algum ponto da árvore for pegado 
 			as.arvoreListener( posT, scaleZoom, translateZoom, sampleSelector.getSampleAtivo(), 
 					sampleSelector.getSampleRandom(), sampleSelector.getCorAtiva(), sampleSelector.getEfectoLigado() );
@@ -363,12 +364,13 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 			//Os if permiten evitar pressionar um botao e no mesmo tempo mover a tela (fazer paneo)
 			if ( as.setListenerArvoreMove(new PVector (x, y), scaleZoom, translateZoom ) ) {
 				emToqueTela = true;
-				return;
+			//	return;
 			} else if ( as.escutaSlider(new PVector (x, y), scaleZoom, translateZoom )) {
 				emToqueTela = true;
-				return;
+			//	return;
 			}
 		}
+		Log.i("PApplet Inicial" , " emToqueTela: " + emToqueTela  + " id: " + id );	
 		//negocio para atualizar o "pan" no zoom
 		if ( !emToqueTela && id == 0) { 
 			PVector addToTrans = new PVector (dist * cos(ang), dist * sin (ang));
@@ -380,6 +382,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 	@Override
 	public void screenTouchedPinch(float pinchMag) {
 		// TODO Auto-generated method stub
+		emToqueTela = true;
 		scaleZoom = scaleZoom + pinchMag*.001f;
 		scaleZoom = PApplet.constrain(scaleZoom, .03f, 3);
 	}
@@ -645,7 +648,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 								arvores.get(arvores.size()-1).galhos.get(j).pontosNota.get(k).conEfecto = false;
 						}
 						
-						Log.i(TAG, "colorP: " + colorP );
+				//		Log.i(TAG, "colorP: " + colorP );
 						
 					}
 				}

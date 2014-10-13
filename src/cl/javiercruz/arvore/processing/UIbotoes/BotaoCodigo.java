@@ -26,17 +26,18 @@ public class BotaoCodigo {
 		p5.textSize(12);
 		p5.textAlign(PApplet.LEFT, PApplet.CENTER);
 		p5.text("Chave", diametro, 0);
-		p5.fill(150, 200,180);
+		p5.fill(206, 141, 184); //(255 * 40/360f, 255 * .86f, 255 * 1f, 120);
 		p5.rotate(-PApplet.PI*.5f);
 		if (estadoSwitch == 0)
 			p5.rotate(angulo);
 		else
 			p5.rotate(-angulo);
-		p5.strokeWeight(3);
-		p5.stroke(255,0,255);
-		p5.line(0, 0, diametro*.55f, 0);
+		p5.strokeWeight(2);
+		p5.stroke(255);
+	//	p5.line(0, 0, diametro*.55f, 0);
+		p5.stroke(17, 145, 64); //255 * 33/360f, 255 * .44f, 255 * .99f);
 		p5.ellipse(0, 0, diametro, diametro);
-		p5.fill(255,255,255);
+		p5.fill(211, 191,  231);
 		p5.ellipse(diametro*.525f, 0, diametro*.2f, diametro*.2f);
 		p5.popStyle();
 		p5.popMatrix();

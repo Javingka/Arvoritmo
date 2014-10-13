@@ -58,9 +58,12 @@ public class BarraControl{
 		altura = p5.height*.08f;
 		posY =  (altura / 2 );
 		
-		gestionadorArvore = new GestionadorArvores ( p5, new PVector (p5.width*.9f, p5.height*.05f), altura*.6f, colorDeFondo, _cantidadInicialArvores );
+		gestionadorArvore = new GestionadorArvores ( p5, new PVector (p5.width*.9f, p5.height*.05f), altura*.6f,
+				            colorDeFondo, _cantidadInicialArvores );
 		gestionadorArvore.setPosicaoTexto("centro", "esquerda");
 		gestionadorArvore.setNomeBotao(" ");
+		gestionadorArvore.setColorOff(colorDeFondo);
+		gestionadorArvore.setColorON(colorDeFondo);
 		
 		bRec = new BotaoRec ( p5, new PVector (p5.width*.95f, p5.height*.85f), altura*.8f, p5.color(0,255,255) );
 		bRec.setPosicaoTexto("centro", "esquerda");

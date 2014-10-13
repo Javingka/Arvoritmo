@@ -1,0 +1,6 @@
+*.o
+*.swp
+bin
+gen
+obj
+local.properties
