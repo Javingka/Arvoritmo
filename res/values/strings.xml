@@ -11,4 +11,9 @@
 	<string name="text_hit_save_sample">Nome</string>
 	<string name="save_rewrite_info">Se o nome do arquivo já existe, ele vai se reescrever</string>
 	
+	<string name="mais_info"> 	+ INFO 	</string>
+	<string name="infoArvortimo">Ideia original, programação e design de Arvoritmo:
+Javier Cruz | www.javiercruz.cl </string>
+	<string name="infoMusicaMovel">Este aplicativo tem sido desenvolvido dentro do projeto Música Móvel</string>
+	<string name="botaoIrWeb"> ir para o site </string>
 </resources>

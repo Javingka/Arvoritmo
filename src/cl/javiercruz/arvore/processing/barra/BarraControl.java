@@ -75,10 +75,10 @@ public class BarraControl{
 
 		menuArvore = new BotaoNomeRect(p5, "ÁRVORE", "direitaSup");
 		
-		botaoSalva = new BotaosSalvaCarga (p5, new PVector (p5.width*.95f, p5.height*.425f), altura*.75f, colorDeFondo,"ic_action_save.png" );
+		botaoSalva = new BotaosSalvaCarga (p5, new PVector (p5.width*.95f, p5.height*.425f), altura*.75f, colorDeFondo,"ic_action_save_gris.png" );
 		botaoSalva.setPosicaoTexto("centro", "esquerda");
 		botaoSalva.setNomeBotao("Salva");
-		botaoCarga = new BotaosSalvaCarga (p5, new PVector (p5.width*.95f, p5.height*.575f), altura*.75f, colorDeFondo,"ic_action_storage.png" );
+		botaoCarga = new BotaosSalvaCarga (p5, new PVector (p5.width*.95f, p5.height*.575f), altura*.75f, colorDeFondo,"ic_action_storage_gris.png" );
 		botaoCarga.setPosicaoTexto("centro", "esquerda");
 		botaoCarga.setNomeBotao("Abre");
 	}

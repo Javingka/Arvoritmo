@@ -20,7 +20,7 @@ public class BotaoPlay extends BotaoBase {
 			diamEfeivo = PApplet.lerp(diamEfeivo, diamMen, .1f);
 		}
 		p5.strokeWeight(3);
-		p5.stroke(255);
+		p5.stroke( 255 * 34/360, 255 * .57f,  255 * .25f); //p5.stroke(255);
 		if (!ligado) {
 			p5.pushMatrix();
 			p5.pushStyle();
@@ -63,7 +63,7 @@ public class BotaoPlay extends BotaoBase {
 			PosEfetiva = posII;
 		}
 		p5.strokeWeight(1);
-		p5.stroke(255);
+		p5.stroke( 24, 145.35f, 63.75f);
 		if (!ligado) {
 			p5.pushMatrix();
 			p5.pushStyle();
@@ -99,7 +99,7 @@ public class BotaoPlay extends BotaoBase {
 	public void desenharBotaoCuadrado() {
 		p5.pushStyle();
 		p5.strokeWeight(3);
-		p5.stroke(255);
+		p5.stroke(24, 145.35f, 63.75f);
 		if (!ligado) {
 			p5.pushMatrix();
 			p5.pushStyle();

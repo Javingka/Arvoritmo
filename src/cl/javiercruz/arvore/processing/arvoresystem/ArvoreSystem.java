@@ -41,7 +41,7 @@ public class ArvoreSystem {
 	private int pulsos; //quantidade de pulsos nos galhos
 	private float offset_x_PontoMov, offset_y_PontoMov; //variaveis com a quantidade de pixels que a árvore tem se deslocado
 	private float offset_y_play, offset_y_bpm, offset_y_invierte, offset_y_verControl; //variaveis de movimentação do play e bpm
-	boolean arvoreCresce, arvoreDisminui;
+	public boolean arvoreCresce, arvoreDisminui;
 	int mudancaArvore, mudancaGalho; //quantidade de galhos (mudancaArvore) e pontos nos galhos (mudancaGalho)
 	
 	private int bpm;
@@ -124,7 +124,7 @@ public class ArvoreSystem {
 		verControlesArvore.setNomeBotao("controles");
 		verControlesArvore.setOffsetToPosII(new PVector (0, offset_y_verControl) ); //defina a segunda posição, tambem mudar 0.5f no setListenerArvoreMove
 		verControlesArvore.setColorON(p5.color(255));
-		verControlesArvore.setImageBotao("ic_action_expand.png");
+		verControlesArvore.setImageBotao("ic_action_expand_gris.png");
 		
 		criaBotoesDeMudanca();
 		
@@ -384,7 +384,7 @@ public class ArvoreSystem {
 				
 				verControlesArvore.setPosicaoDefault(true);
 				verControlesArvore.setNomeBotao("controles");
-				verControlesArvore.setImageBotao("ic_action_expand.png");
+				verControlesArvore.setImageBotao("ic_action_expand_gris.png");
 				setMuestraControles(false);
 			} else if (verControlesArvore.mudandoOn) {
 				invierte.setPosicaoDefault(false);
@@ -392,7 +392,7 @@ public class ArvoreSystem {
 				
 				verControlesArvore.setPosicaoDefault(false);
 				verControlesArvore.setNomeBotao("fecha controles");
-				verControlesArvore.setImageBotao("ic_action_volta.png");
+				verControlesArvore.setImageBotao("ic_action_volta_gris.png");
 				setMuestraControles(true);
 			}
 		}
@@ -473,7 +473,7 @@ public class ArvoreSystem {
 		float dist = PVector.dist(new PVector ( ( (px  + offset_x_PontoMov) * scaleZoom )+ translateZoom.x  , 
 												  ( (py  +  offset_y_PontoMov) * scaleZoom ) + translateZoom.y), evaluacao);
 		
-		if (dist < refTamanho*.2f ) {
+		if (dist < p5.height * .025 ) { // refTamanho*.2f ) {
 			arvoreEmMovimento = true;
 			px = (evaluacao.x - translateZoom.x ) / scaleZoom - offset_x_PontoMov;
 			py = (evaluacao.y - translateZoom.y ) / scaleZoom -  offset_y_PontoMov;
@@ -622,15 +622,15 @@ public class ArvoreSystem {
 		p5.fill(255,120);
 		p5.ellipse(0,0, p5.height * .01f, p5.height * .01f);
 		p5.fill(255);
-		p5.textAlign(PApplet.CENTER, PApplet.CENTER);
-		p5.textSize(p5.height * .025f);
+//		p5.textAlign(PApplet.CENTER, PApplet.CENTER);
+//		p5.textSize(p5.height * .025f);
 	//	p5.text("mover", 0, p5.height * .05f);
 	//	p5.text("árvore", 0, - p5.height * .05f);
 		
 		//Função que disenhas as flechas do "mover arvore"
 		p5.rotate(PApplet.PI*.25f);
 		for (int i = 0 ; i < 3 ; i++) {
-			p5.stroke(255);
+			p5.stroke(24, 145.35f, 63.75f);
 			p5.strokeWeight(2);
 			p5.rotate(PApplet.TWO_PI / 3);
 			p5.line (p5.height * .01f,0, p5.height * .04f, 0);

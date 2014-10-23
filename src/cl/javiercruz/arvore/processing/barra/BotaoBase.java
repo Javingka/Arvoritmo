@@ -175,7 +175,7 @@ public class BotaoBase {
 		p5.translate(PosEfetiva.x, PosEfetiva.y);
 		p5.fill(cargaColor);
 		p5.strokeWeight(2);
-		p5.stroke(255);
+		p5.stroke(24, 145.35f, 63.75f);
 		if (!temIcone)
 			p5.ellipse(0,0, diam, diam);
 		else
@@ -432,7 +432,7 @@ public class BotaoBase {
 		atualizaCor();
 		testMudanca(ligadoPrev);
 	}
-	//escuta o click quanto o botão for criado dinamicamente, quer dizer quando a sua posição na tela muda
+	//escuta o click24, 145.35f, 63.75f quanto o botão for criado dinamicamente, quer dizer quando a sua posição na tela muda
 	public boolean botaoOnClick (PVector evaluar, float scalaZoom, PVector translateZoom) {
 		click = false;
 		boolean ligadoPrev = ligado;
@@ -543,7 +543,7 @@ public class BotaoBase {
 			p5.rotate(PApplet.PI);
 		}
 		p5.noFill();
-		p5.stroke(p5.color(255));
+		p5.stroke(p5.color(24, 145.35f, 63.75f));
 		p5.noFill();//fill(255);
 		p5.ellipse(0,0,diamEfeivo,diamEfeivo);
 		p5.strokeWeight(p5.height*.005f);
@@ -569,10 +569,10 @@ public class BotaoBase {
 			p5.rotate(PApplet.PI);
 		}
 		p5.noFill();
-		p5.stroke(p5.color(255));
+		p5.stroke(p5.color(24, 145.35f, 63.75f));
 		p5.noFill();//fill(255);
 		p5.ellipse(0,0,diamEfeivo,diamEfeivo);
-		p5.strokeWeight(p5.height*.005f);
+		p5.strokeWeight(p5.height*.005255f);
 		p5.line(0, diamEfeivo*.3f, 0, -diamEfeivo*.3f);
 		p5.line(0, -diamEfeivo*.3f, (diamEfeivo*.3f) * PApplet.cos (p5.PI), (diamEfeivo*.3f) * PApplet.sin (PApplet.PI));
 		p5.line(0, -diamEfeivo*.3f, (diamEfeivo*.3f) * PApplet.cos (0), (diamEfeivo*.3f) * PApplet.sin (0));

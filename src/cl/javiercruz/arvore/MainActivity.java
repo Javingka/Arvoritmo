@@ -27,8 +27,9 @@ public class MainActivity extends Activity {
 		Button botaoInicioApp = (Button)this.findViewById(R.id.button1);
 	//implementamos o Listener para dar as instruçōes quando o botāo for pressionado.
 		botaoInicioApp.setOnClickListener(mGlobal_OnClickListener);
-		
-
+	//Inicializamos o objeto botāo linkando ele com o layout maisinfo	
+		Button botaoMaisInfo = (Button)this.findViewById(R.id.button2);
+		botaoMaisInfo.setOnClickListener(mGlobal_OnClickListener);
 	}
 	
 /*	Uma variavel para escutar os click que todos os botōes
@@ -57,6 +58,11 @@ public class MainActivity extends Activity {
 					intent.putExtra("Um float", valorX );
 					intent.putExtra("Um String",stringX);
 					startActivity(intent);
+                break;
+                case R.id.button2:
+                	Log.i(TAG, "Botāo2 clicado"); //funçāo que imprime na consola
+                	Intent intent2 = new Intent("cl.javiercruz.arvore.androidActivities.MaisInfo");
+                	startActivity(intent2);
                 break;
             }
         }

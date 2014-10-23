@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,10 +43,14 @@ import cl.javiercruz.arvore.processing.arvoresystem.Galho;
 import cl.javiercruz.arvore.processing.arvoresystem.PontoNota;
 import cl.javiercruz.arvore.processing.barra.BarraControl;
 import cl.javiercruz.arvore.processing.botoes.SampleSelector;
-
 import cl.javiercruz.arvore.R;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -57,7 +62,6 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -120,8 +124,11 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 			colocaEtiraArvores();
 		}
 		
-		for (ArvoreSystem as : arvores) 
-			as.atualizaTamanhoArvore();
+		for (ArvoreSystem as : arvores) { 
+			if (as.arvoreCresce || as.arvoreDisminui) {
+				as.atualizaTamanhoArvore();
+			}
+		}
 		
 		pushMatrix();
 		translate(translateZoom.x, translateZoom.y); 
@@ -137,7 +144,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 		}
 		popMatrix();
 		
-		sampleSelector.desenhar();
+	sampleSelector.desenhar();
 		barra.desenhar();
 	}
 	public void colocaEtiraArvores(){
@@ -186,6 +193,44 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 		String root = Environment.getExternalStorageDirectory().toString();
 		File myDir = new File(root + "/arvoritmo/sessoes");
 		myDir.mkdirs();
+		
+		botaExemplo("arvores_1", "ex00.json");
+		botaExemplo("arvores_2","ex01.json");
+		botaExemplo("arvores_3","ex02.json");
+		
+	}
+	private void botaExemplo(String nomeNoApp, String nomeEx) {
+		//Carrega o exemplo .json	
+		
+		String rootf = Environment.getExternalStorageDirectory().toString(); //raiz do dispositivo
+		File myDirf = new File(rootf + "/arvoritmo/sessoes");
+		myDirf.mkdirs();
+		String fname = nomeNoApp;//dataEmFormato + "sessao_arvore" ;
+		saveFileName =  myDirf + "/" + fname + ".json";
+				
+		FileWriter writeFile = null;
+		AssetManager assetManager = getAssets();
+		try {
+			
+			InputStream input;
+			 input = assetManager.open(nomeEx);
+			 int size = input.available();
+			 byte[] buffer = new byte[size];
+			 input.read(buffer);
+			 input.close();
+			
+			 // byte buffer into a string
+			 String text = new String(buffer);
+			 
+			writeFile = new FileWriter(saveFileName);
+			//Escreve no arquivo conteudo do Objeto JSON
+			writeFile.write(text);//jsonObject.toString());
+			writeFile.close();
+			
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+	
 	}
 	@Override 
 	public void onRestart(){
@@ -550,6 +595,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 			sessao.put("arvores", arvoreArray); //E o array de árvores se coloca no objeto que salva a sessão	
 			
 		try{
+			
 			String root = Environment.getExternalStorageDirectory().toString(); //raiz do dispositivo
 			File myDir = new File(root + "/arvoritmo/sessoes");
 			myDir.mkdirs();

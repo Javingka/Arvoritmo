@@ -61,31 +61,33 @@ public final class R {
         public static final int f23=0x7f020019;
         public static final int f24=0x7f02001a;
         public static final int flag=0x7f02001b;
-        public static final int ic_action_storage=0x7f02001c;
-        public static final int ic_action_volume_on=0x7f02001d;
-        public static final int ic_launcher=0x7f02001e;
-        public static final int icon=0x7f02001f;
-        public static final int icon_arv=0x7f020020;
-        public static final int layout_1024x600=0x7f020021;
-        public static final int layout_1280x720=0x7f020022;
+        public static final int fundo=0x7f02001c;
+        public static final int ic_action_storage=0x7f02001d;
+        public static final int ic_action_volume_on=0x7f02001e;
+        public static final int ic_launcher=0x7f02001f;
+        public static final int icon=0x7f020020;
+        public static final int icon_arv=0x7f020021;
+        public static final int layout_1024x600=0x7f020022;
     }
     public static final class id {
-        public static final int SplashImageView=0x7f0c000c;
-        public static final int TheSplashLayout=0x7f0c000b;
-        public static final int action_settings=0x7f0c000f;
-        public static final int botao_select_sample=0x7f0c0002;
+        public static final int SplashImageView=0x7f0c000e;
+        public static final int TheSplashLayout=0x7f0c000d;
+        public static final int action_settings=0x7f0c0011;
+        public static final int botao_select_sample=0x7f0c0003;
         public static final int button1=0x7f0c0001;
-        public static final int button_c_1=0x7f0c0006;
-        public static final int button_salva=0x7f0c0009;
-        public static final int editText1=0x7f0c0008;
-        public static final int flaganim=0x7f0c000e;
-        public static final int paired_devices=0x7f0c0004;
-        public static final int path=0x7f0c0005;
-        public static final int path_interno=0x7f0c0007;
-        public static final int rowtext=0x7f0c000a;
-        public static final int seekBar1=0x7f0c000d;
+        public static final int button2=0x7f0c0002;
+        public static final int buttonWeb=0x7f0c000b;
+        public static final int button_c_1=0x7f0c0007;
+        public static final int button_salva=0x7f0c000a;
+        public static final int editText1=0x7f0c0009;
+        public static final int flaganim=0x7f0c0010;
+        public static final int paired_devices=0x7f0c0005;
+        public static final int path=0x7f0c0006;
+        public static final int path_interno=0x7f0c0008;
+        public static final int rowtext=0x7f0c000c;
+        public static final int seekBar1=0x7f0c000f;
         public static final int textView1=0x7f0c0000;
-        public static final int title_paired_devices=0x7f0c0003;
+        public static final int title_paired_devices=0x7f0c0004;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -95,9 +97,10 @@ public final class R {
         public static final int file_chooser=0x7f030004;
         public static final int file_chooser_maior=0x7f030005;
         public static final int file_chooser_salva=0x7f030006;
-        public static final int row=0x7f030007;
-        public static final int splash=0x7f030008;
-        public static final int views_in=0x7f030009;
+        public static final int maisinfo=0x7f030007;
+        public static final int row=0x7f030008;
+        public static final int splash=0x7f030009;
+        public static final int views_in=0x7f03000a;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
@@ -111,9 +114,13 @@ public final class R {
         public static final int action_settings=0x7f070018;
         public static final int app_name=0x7f070016;
         public static final int app_start=0x7f070017;
+        public static final int botaoIrWeb=0x7f070022;
         public static final int botao_save_sample=0x7f07001c;
         public static final int botao_select_sample=0x7f07001b;
         public static final int hello_world=0x7f070019;
+        public static final int infoArvortimo=0x7f070020;
+        public static final int infoMusicaMovel=0x7f070021;
+        public static final int mais_info=0x7f07001f;
         public static final int none_paired=0x7f070001;
         public static final int pref_key_inchannels=0x7f070010;
         public static final int pref_key_outchannels=0x7f070013;

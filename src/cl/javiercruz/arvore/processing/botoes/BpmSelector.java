@@ -49,7 +49,7 @@ public class BpmSelector extends SliderZoom {
 	public void desenharSlider() {
 		p5.pushStyle();
 		p5.strokeWeight(2);
-		p5.stroke(255);
+		p5.stroke(24, 145.35f, 63.75f);
 		p5.line(xMin - diam, pos.y, xMax + diam, pos.y);
 		//p5.line(xMin + (comprimento / 2), pos.y-diam/2, xMin + (comprimento / 2) , pos.y+diam/2);
 		p5.fill(colorOn);
@@ -68,6 +68,7 @@ public class BpmSelector extends SliderZoom {
 		p5.pushMatrix();
 		p5.rectMode(PApplet.CENTER);
 		p5.translate(x,  y);
+		p5.stroke(24, 145.35f, 63.75f);
 		p5.rect(0,0 , diam*3f, diam*1.15f, 7);
 		p5.fill(255);
 		p5.textAlign(PApplet.CENTER, PApplet.CENTER);

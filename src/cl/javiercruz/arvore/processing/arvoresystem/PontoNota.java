@@ -101,7 +101,7 @@ public class PontoNota {
 //		var = PApplet.map(var, -1, 1, 0, 255);
 //		colorOn = p5.color(var, 255, 255);
 		  
-		colorOn = p5.color(0);//255/6, 255, 255);  
+		colorOn = p5.color(255);//255/6, 255, 255);  
 		pegaColor = colorOn;
 		diametro = diametroOnPlay;
 	    ativo = true;

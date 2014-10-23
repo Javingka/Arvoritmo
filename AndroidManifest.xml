@@ -36,6 +36,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         <activity
+            android:name="cl.javiercruz.arvore.androidActivities.MaisInfo"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="Árvoritmo">
+            <intent-filter>
+				<action android:name="cl.javiercruz.arvore.androidActivities.MaisInfo" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+        </activity>
         
 <!-- Todo sketch de Processing que seja criado com um 'intent' tem que ser declarado aqui no manifest -->
 <!-- com android:screenOrientation fixamos a orientaçāo da tela -->

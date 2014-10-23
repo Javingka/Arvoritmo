@@ -42,8 +42,8 @@ public class Galho {
 		pos1 = _pos1;
 		pos2 = _pos2;
 		tempoPorGalho = tempos;
-		colorOff = p5.color(255 * 34/360f, 255 * .57f, 255 * .25f); // p5.color(123*255/360, 180, 180);
-		colorOn = p5.color(0); //p5.color(255 * 15/360f, 255 * .85f, 255 * .95f); //p5.color(255 * 15/360f, 255 * .85f, 255 * .95f); //p5.color(123*16/360, 70, 70); 
+		colorOff = p5.color(24, 145.35f, 63.75f); // p5.color(123*255/360, 180, 180);
+		colorOn = p5.color(11, 191,  231); //p5.color(0); //p5.color(255 * 15/360f, 255 * .85f, 255 * .95f); //p5.color(255 * 15/360f, 255 * .85f, 255 * .95f); //p5.color(123*16/360, 70, 70); 
 		colorOnSound = p5.color (211, 186, 229); //p5.color(255 * 34/360f, 255 * .57f, 255 * .5f); // p5.color(123*255/360, 20, 20);
 		pegaColor = colorOff;
 		pontosNota = new ArrayList <PontoNota>(tempoPorGalho);

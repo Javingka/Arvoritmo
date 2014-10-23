@@ -21,6 +21,7 @@ public class BotaoNomeRect {
 	private float anguloDirec;
 	private boolean direita = false;
 	private int colorMuda;
+	private int frameCountBase; //variavel para ter um contador do tempo desde que o botão tem sido ativado
 	
 	public BotaoNomeRect(PApplet _p5, String nomeBotao) {
 		p5 = _p5;
@@ -53,19 +54,21 @@ public class BotaoNomeRect {
 		p5.pushStyle();
 		p5.pushMatrix();
 		if (!direita)
-			p5.textAlign(p5.LEFT, p5.CENTER);
+			p5.textAlign(PApplet.LEFT, PApplet.CENTER);
 		else
-			p5.textAlign(p5.RIGHT, p5.CENTER);
+			p5.textAlign(PApplet.RIGHT, PApplet.CENTER);
 		
 		p5.rectMode(PApplet.CENTER);
 		p5.noStroke();
 		
 		if (ligado) {
 			colorMuda = colorOn; //lerpColorEsp(colorMuda,colorOn);
-			posTran = PVector.lerp(posTran, posicaoBotao, .1f);
-			widthTran = PApplet.lerp(widthTran, widthB, .1f);
+			float velocidade = .1f * ( PApplet.constrain(PApplet.map ( (p5.frameCount - frameCountBase), 0, 60, 0f, 1f), 0f,1f) );
+			posTran = PVector.lerp(posTran, posicaoBotao, velocidade);
+			widthTran = PApplet.lerp(widthTran, widthB, velocidade);
 			p5.fill(colorMuda);
 		} else {
+			frameCountBase = p5.frameCount;
 			colorMuda = colorOff; //lerpColorEsp(colorMuda,colorOff);
 			posTran = PVector.lerp(posTran, posicaoBotaoOff , .1f);
 			widthTran = PApplet.lerp(widthTran , widthBOff, .1f);

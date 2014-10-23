@@ -35,19 +35,19 @@ public class GestionadorArvores extends BotaoBase {
 	 */
 	private void setPosicoesBotoes( PVector _p ) {
 		PVector posRep = new PVector ( _p.x - diam * .75f,  _p.y ); //_p.x - diam * 1.75f ,  _p.y - diam * .75f);
-		botaoSuma = new BotaoBase(p5, posRep, diam * 1.25f, p5.color(0) ); //colorOn);//);
+		botaoSuma = new BotaoBase(p5, posRep, diam * 1.25f, colorOn ); //colorOn);//);
 		botaoSuma.setPosicaoTexto("centro", "esquerda");
 		botaoSuma.setNomeBotao(" ");
 		botaoSuma.setTamanhoEtiqueta(1);
 		botaoSuma.setEtiqueta("+");
-		botaoSuma.setColorOff(p5.color(0));
+		botaoSuma.setColorOff(colorOn);
 		PVector posEfec = new PVector (_p.x + diam * .75f, _p.y ); //(_p.x - diam * 1.75f ,  _p.y + diam * .75f);
 		botaoResta = new BotaoBase(p5, posEfec, diam*1.25f, colorOn); //p5.color (getColorOn(), 200) );
 		botaoResta.setPosicaoTexto("centro", "direita");
 		botaoResta.setTamanhoEtiqueta(1);
 		botaoResta.setEtiqueta("-");
 		botaoResta.setNomeBotao(" ");
-		botaoResta.setColorOff(p5.color(0));
+		botaoResta.setColorOff(colorOn);
 		
 	}
 	@Override //una nova versión para disenhar este botao
