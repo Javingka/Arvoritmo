@@ -415,7 +415,7 @@ public class PAppletInicial extends PApplet  implements PdListenerCallBack,MTLis
 			//	return;
 			}
 		}
-		Log.i("PApplet Inicial" , " emToqueTela: " + emToqueTela  + " id: " + id );	
+//		Log.i("PApplet Inicial" , " emToqueTela: " + emToqueTela  + " id: " + id );	
 		//negocio para atualizar o "pan" no zoom
 		if ( !emToqueTela && id == 0) { 
 			PVector addToTrans = new PVector (dist * cos(ang), dist * sin (ang));
